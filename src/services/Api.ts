@@ -1,8 +1,18 @@
 import axios from "axios";
 
-const api = axios.create({
-  baseURL: "https://db.ygoprodeck.com/api/v7/",
-  timeout: 10000,
+const apiClient = axios.create({
+  baseURL: 'https://db.ygoprodeck.com/api/v7/',
 });
 
-export default api;
+async function doGet(url: string) {
+    try {
+      const response = await apiClient.get(url);
+
+      return response.data.data;
+    } catch (error) {
+      console.log(error);
+      return { success: false, msg: 'Erro do get'};
+    }
+  }
+
+  export default doGet;
