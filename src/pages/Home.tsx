@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../Store/store";
 import { getCards } from "../Store/models/CardListSlice";
 import Navigation from "../components/Navigation/Navigation";
@@ -12,7 +11,7 @@ const PAGE_SIZE = 20;
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
+
   const { cards, status, error } = useSelector(
     (state: RootState) => state.card
   );
@@ -56,7 +55,7 @@ const Home = () => {
               <Cards
                 key={card.id}
                 card={card}
-                onClick={() => navigate(`/produto/${card.id}`)} 
+                
               />
             ))}
           </div>

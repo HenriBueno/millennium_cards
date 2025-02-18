@@ -16,6 +16,7 @@ import {
   TabPanels,
 } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useAppSelector } from '../../Store/hooks'
 
 const navigation = {
   categories: [
@@ -143,6 +144,7 @@ const navigation = {
 
 export default function Example() {
   const [open, setOpen] = useState(false)
+  const bag = useAppSelector((state) => state.bag.card);
 
   return (
     <div className="bg-white">
@@ -395,7 +397,7 @@ export default function Example() {
                       aria-hidden="true"
                       className="size-6 shrink-0 text-gray-400 group-hover:text-gray-500"
                     />
-                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
+                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{bag.length}</span>
                     <span className="sr-only">items in cart, view bag</span>
                   </a>
                 </div>

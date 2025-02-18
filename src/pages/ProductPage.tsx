@@ -7,11 +7,13 @@ import Navigation from "../components/Navigation/Navigation";
 import Footer from "../components/Footer/Footer";
 import CardDescription from "../components/CardDescription/CardDescription";
 
+
 const ProductPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams<{ id: string }>();
   const { cards, status, error } = useSelector((state: RootState) => state.card);
   const [product, setProduct] = useState<any | null>(null);
+  
 
   useEffect(() => {
 
