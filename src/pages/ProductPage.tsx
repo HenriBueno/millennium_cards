@@ -6,27 +6,28 @@ import { getCards } from "../Store/models/CardListSlice";
 import Navigation from "../components/Navigation/Navigation";
 import Footer from "../components/Footer/Footer";
 import CardDescription from "../components/CardDescription/CardDescription";
-
+import Bag from "../components/Bag/Bag";
 
 const ProductPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams<{ id: string }>();
-  const { cards, status, error } = useSelector((state: RootState) => state.card);
+  const { cards, status, error } = useSelector(
+    (state: RootState) => state.card
+  );
   const [product, setProduct] = useState<any | null>(null);
-  
 
   useEffect(() => {
-
     const foundProduct = cards.find((card) => card.id.toString() === id);
 
     if (foundProduct) {
       setProduct(foundProduct);
     } else if (id) {
-
       const fetchCard = async () => {
-        const resultAction = await dispatch(getCards({ limit: 1, offset: 0 })); 
+        const resultAction = await dispatch(getCards({ limit: 1, offset: 0 }));
         if (getCards.fulfilled.match(resultAction)) {
-          const fetchedProduct = resultAction.payload.find((card: any) => card.id.toString() === id);
+          const fetchedProduct = resultAction.payload.find(
+            (card: any) => card.id.toString() === id
+          );
           setProduct(fetchedProduct || null);
         }
       };
@@ -38,6 +39,7 @@ const ProductPage = () => {
   return (
     <>
       <Navigation />
+      <Bag />
       <div className="bg-white">
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
           {status === "loading" && <p>Carregando...</p>}

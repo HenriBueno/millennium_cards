@@ -6,6 +6,7 @@ import Navigation from "../components/Navigation/Navigation";
 import Cards from "../components/Cards/Cards";
 import Footer from "../components/Footer/Footer";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
+import Bag from "../components/Bag/Bag";
 
 const PAGE_SIZE = 20;
 
@@ -42,6 +43,7 @@ const Home = () => {
   return (
     <>
       <Navigation />
+      <Bag />
       <div className="bg-white">
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-10">
@@ -52,15 +54,10 @@ const Home = () => {
 
           <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-2">
             {cards?.map((card) => (
-              <Cards
-                key={card.id}
-                card={card}
-                
-              />
+              <Cards key={card.id} card={card} />
             ))}
           </div>
 
-  
           <div className="flex justify-center items-center mt-8 space-x-2">
             <button
               onClick={() => handlePageChange(currentPage - 1)}
