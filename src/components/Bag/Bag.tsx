@@ -108,7 +108,8 @@ export default function Bag() {
                             </p>
                           </div>
                           <p className="mt-1 text-sm text-gray-500">
-                            {card.card_sets[0].set_rarity}
+                          {card.card_sets?.[0]?.set_rarity}
+                              
                           </p>
                         </div>
                         <div className="flex flex-1 items-center justify-between text-sm">

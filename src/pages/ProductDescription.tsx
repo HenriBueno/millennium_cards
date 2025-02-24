@@ -2,31 +2,42 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../Store/store";
-import { getCards } from "../Store/models/CardListSlice";
 import Navigation from "../components/Navigation/Navigation";
 import Footer from "../components/Footer/Footer";
 import CardDescription from "../components/CardDescription/CardDescription";
 import Bag from "../components/Bag/Bag";
+import { getSearchCard } from "../Store/models/CardSearchSlice";
+import { CardType } from "../@types/types";
 
 const ProductPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams<{ id: string }>();
-  const { cards, status, error } = useSelector(
-    (state: RootState) => state.card
+  const { status, error } = useSelector((state: RootState) => state.card);
+  const allCards = useSelector((state: RootState) => state.card.cards);
+  const filteredCards = useSelector(
+    (state: RootState) => state.searchCard.cards
   );
   const [product, setProduct] = useState<any | null>(null);
+  const [searchProdutc, setSearchProdutc] = useState("");
 
   useEffect(() => {
-    const foundProduct = cards.find((card) => card.id.toString() === id);
+    if (!id) return;
+
+    let foundProduct =
+      filteredCards.find((card) => card.id.toString() === id) ||
+      allCards.find((card) => card.id.toString() === id);
 
     if (foundProduct) {
       setProduct(foundProduct);
-    } else if (id) {
+    } else {
+      // Se não encontrou, busca via API
       const fetchCard = async () => {
-        const resultAction = await dispatch(getCards({ limit: 1, offset: 0 }));
-        if (getCards.fulfilled.match(resultAction)) {
+        const resultAction = await dispatch(
+          getSearchCard({ search: id, limit: 1, offset: 0 })
+        );
+        if (getSearchCard.fulfilled.match(resultAction)) {
           const fetchedProduct = resultAction.payload.find(
-            (card: any) => card.id.toString() === id
+            (card: CardType) => card.id.toString() === id
           );
           setProduct(fetchedProduct || null);
         }
@@ -34,12 +45,20 @@ const ProductPage = () => {
 
       fetchCard();
     }
-  }, [dispatch, id, cards]);
+  }, [dispatch, id, filteredCards, allCards]);
+
+  if (!product) return <p>Carregando...</p>;
+  
 
   return (
     <>
-      <Navigation />
+      <Navigation
+        searchProduct={searchProdutc}
+        setSearchProduct={setSearchProdutc}
+      />
+
       <Bag />
+
       <div className="bg-white">
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
           {status === "loading" && <p>Carregando...</p>}

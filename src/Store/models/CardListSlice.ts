@@ -21,6 +21,8 @@ export const getCards = createAsyncThunk(
       const response = await doGet(
         `cardinfo.php?num=${limit}&offset=${offset}`
       );
+      
+      
 
       if (!response) {
         return thunkAPI.rejectWithValue("Dados inválidos recebidos da API");
@@ -52,6 +54,8 @@ const cardListSlice = createSlice({
       .addCase(getCards.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.cards = action.payload;
+        
+        
       })
       .addCase(getCards.rejected, (state, action) => {
         state.status = "failed";

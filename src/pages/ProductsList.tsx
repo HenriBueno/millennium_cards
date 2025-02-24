@@ -7,6 +7,8 @@ import Cards from "../components/Cards/Cards";
 import Footer from "../components/Footer/Footer";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import Bag from "../components/Bag/Bag";
+import { getSearchCard } from "../Store/models/CardSearchSlice";
+import CategoryFilters from "../components/CategoryFilters/CategoryFilters";
 
 const PAGE_SIZE = 20;
 
@@ -16,34 +18,63 @@ const Home = () => {
   const { cards, status, error } = useSelector(
     (state: RootState) => state.card
   );
+  const cardsfilters = useSelector(
+    (state: RootState) => state.searchCard.cards
+  );
+
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMorePages, setHasMorePages] = useState(true);
+  const [searchProduct, setSearchProduct] = useState("");
 
   useEffect(() => {
     const fetchCards = async () => {
-      const resultAction = await dispatch(
-        getCards({ limit: PAGE_SIZE, offset: (currentPage - 1) * PAGE_SIZE })
-      );
+      let resultAction;
 
-      if (getCards.fulfilled.match(resultAction)) {
-        const fetchedCards = resultAction.payload;
-        setHasMorePages(fetchedCards.length === PAGE_SIZE);
+      if (searchProduct.length > 2) {
+        resultAction = await dispatch(
+          getSearchCard({
+            search: searchProduct,
+            limit: PAGE_SIZE,
+            offset: (currentPage - 1) * PAGE_SIZE,
+          })
+        );
+      } else {
+        resultAction = await dispatch(
+          getCards({ limit: PAGE_SIZE, offset: (currentPage - 1) * PAGE_SIZE })
+        );
+      }
+
+      if (Array.isArray(resultAction.payload)) {
+        setHasMorePages(resultAction.payload.length === PAGE_SIZE);
+      } else {
+        setHasMorePages(false);
       }
     };
 
     fetchCards();
-  }, [dispatch, currentPage]);
+  }, [dispatch, searchProduct, currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchProduct]);
+
+  const filteredCards =
+    searchProduct.length >= 3 ? cardsfilters ?? [] : cards ?? [];
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && (hasMorePages || newPage < currentPage)) {
       setCurrentPage(newPage);
     }
   };
-
   return (
     <>
-      <Navigation />
+      <Navigation
+        searchProduct={searchProduct}
+        setSearchProduct={setSearchProduct}
+      />
+
       <Bag />
+      {/* <CategoryFilters searchProduct={searchProduct} setSearchProduct={setSearchProduct}/> */}
       <div className="bg-white">
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-10">
@@ -53,9 +84,13 @@ const Home = () => {
           {status === "failed" && <p>Erro: {error}</p>}
 
           <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-2">
-            {cards?.map((card) => (
-              <Cards key={card.id} card={card} />
-            ))}
+            {filteredCards.length > 0 ? (
+              filteredCards.map((card) => {
+                return <Cards key={card.id} card={card} />;
+              })
+            ) : (
+              <p>Nenhum produto encontrado.</p>
+            )}
           </div>
 
           <div className="flex justify-center items-center mt-8 space-x-2">

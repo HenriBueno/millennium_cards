@@ -5,6 +5,7 @@ import {
   Dialog,
   DialogBackdrop,
   DialogPanel,
+  Input,
   Popover,
   PopoverButton,
   PopoverGroup,
@@ -154,7 +155,12 @@ const navigation = {
   ],
 };
 
-export default function Example() {
+interface InputProps {
+  searchProduct: string;
+  setSearchProduct: (searchTerm: string) => void;
+}
+
+export default function Example({ searchProduct, setSearchProduct }: InputProps) {
   const [open, setOpen] = useState(false);
   const [isBagOpen, setIsBagOpen] = useState(false);
   const bag = useAppSelector((state) => state.bag.card);
@@ -162,6 +168,15 @@ export default function Example() {
 
   const handleCloseBag = () => {
     setIsBagOpen(false);
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchProduct(event.target.value);
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    console.log("Termo de busca:", searchProduct);
   };
 
   return (
@@ -451,19 +466,31 @@ export default function Example() {
                 </div>
 
                 {/* Search */}
-                <div className="flex lg:ml-6">
-                  <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
-                    <span className="sr-only">Search</span>
-                    <MagnifyingGlassIcon
-                      aria-hidden="true"
-                      className="size-6"
+
+                <form onSubmit={handleSubmit}>
+                  <div className="relative ml-5">
+                    <div className="absolute inset-y-0 start-0 flex items-center ps-3">
+                      <button type="submit">
+                        <MagnifyingGlassIcon
+                          aria-hidden="true"
+                          className="size-6 shrink-0 text-gray-400"
+                        />
+                      </button>
+                    </div>
+                    <input
+                      type="search"
+                      id="search"
+                      value={searchProduct}
+                      onChange={handleInputChange}
+                      className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="Pesquisar"
                     />
-                  </a>
-                </div>
+                  </div>
+                </form>
 
                 {/* Cart */}
-                <div className="ml-4 flow-root lg:ml-6">
-                  <div className="ml-4 flow-root lg:ml-6">
+                <div className="ml-4 flow-root lg:ml-6 ">
+                  <div className="ml-4 flow-root lg:ml-6 ">
                     <button
                       type="button"
                       className="group -m-2 flex items-center p-2"

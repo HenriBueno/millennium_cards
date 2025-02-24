@@ -33,7 +33,7 @@ export default function CardDescription({ card }: CardsProps) {
         <div className="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
           <div className="shrink-0 max-w-md lg:max-w-lg mx-auto">
             <img
-              className="dark:hidden w-110 rounded-lg shadow-lg"
+              className="dark:hidden w-110 rounded-lg shadow-lg "
               src={card.card_images[0].image_url}
               alt="iMac"
             />
