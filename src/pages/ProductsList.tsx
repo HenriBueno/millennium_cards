@@ -2,28 +2,32 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../Store/store";
 import { getCards } from "../Store/models/CardListSlice";
-import Navigation from "../components/Navigation/Navigation";
-import Cards from "../components/Cards/Cards";
-import Footer from "../components/Footer/Footer";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
-import Bag from "../components/Bag/Bag";
+// import Navigation from "../components/Navigation/Navigation";
+// import Cards from "../components/Cards/Cards";
+// import Footer from "../components/Footer/Footer";
+// import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
+// import Bag from "../components/Bag/Bag";
+// import CategoryFilters from "../components/CategoryFilters/CategoryFilters";
 import { getSearchCard } from "../Store/models/CardSearchSlice";
-
+import Footer from "../components/Footer/Footer";
+import Navigation from "../components/Navigation/Navigation";
+import CategoryFilters from "../components/CategoryFilters/CategoryFilters";
+import Bag from "../components/Bag/Bag";
 
 const PAGE_SIZE = 20;
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const { cards, status, error } = useSelector(
-    (state: RootState) => state.card
-  );
-  const cardsfilters = useSelector(
-    (state: RootState) => state.searchCard.cards
-  );
+  // const { cards, status, error } = useSelector(
+  //   (state: RootState) => state.card
+  // );
+  // const cardsfilters = useSelector(
+  //   (state: RootState) => state.searchCard.cards
+  // );
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [hasMorePages, setHasMorePages] = useState(true);
+  const [, setHasMorePages] = useState(true);
   const [searchProduct, setSearchProduct] = useState("");
 
   useEffect(() => {
@@ -58,14 +62,14 @@ const Home = () => {
     setCurrentPage(1);
   }, [searchProduct]);
 
-  const filteredCards =
-    searchProduct.length >= 3 ? cardsfilters ?? [] : cards ?? [];
+  // const filteredCards =
+  //   searchProduct.length >= 3 ? cardsfilters ?? [] : cards ?? [];
 
-  const handlePageChange = (newPage: number) => {
-    if (newPage >= 1 && (hasMorePages || newPage < currentPage)) {
-      setCurrentPage(newPage);
-    }
-  };
+  // const handlePageChange = (newPage: number) => {
+  //   if (newPage >= 1 && (hasMorePages || newPage < currentPage)) {
+  //     setCurrentPage(newPage);
+  //   }
+  // };
   return (
     <>
       <Navigation
@@ -74,8 +78,8 @@ const Home = () => {
       />
 
       <Bag />
-      {/* <CategoryFilters searchProduct={searchProduct} setSearchProduct={setSearchProduct}/> */}
-      <div className="bg-white">
+      <CategoryFilters searchProduct={searchProduct} setSearchProduct={setSearchProduct}/>
+      {/* <div className="bg-white">
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-10">
             Lista de Produtos
@@ -131,10 +135,9 @@ const Home = () => {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
       <Footer />
     </>
   );
 };
-
 export default Home;
