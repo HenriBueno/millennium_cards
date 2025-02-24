@@ -20,7 +20,6 @@ import { AppDispatch, RootState } from '../../Store/store'
 import Cards from '../Cards/Cards'
 import { getSearchCard } from '../../Store/models/CardSearchSlice'
 import { getCards } from '../../Store/models/CardListSlice'
-import Navigation from '../Navigation/Navigation'
 
 const sortOptions = [
   { name: 'Most Popular', href: '#', current: true },
@@ -85,7 +84,7 @@ interface SearchProp {
     setSearchProduct: (value: string) => void;
 }
 
-export default function CategoryFilters({ searchProduct, setSearchProduct }: SearchProp) {
+export default function CategoryFilters({ searchProduct }: SearchProp) {
 
     const dispatch = useDispatch<AppDispatch>();
 

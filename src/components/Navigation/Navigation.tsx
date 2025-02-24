@@ -5,7 +5,6 @@ import {
   Dialog,
   DialogBackdrop,
   DialogPanel,
-  Input,
   Popover,
   PopoverButton,
   PopoverGroup,

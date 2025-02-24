@@ -8,7 +8,7 @@ import Footer from "../components/Footer/Footer";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import Bag from "../components/Bag/Bag";
 import { getSearchCard } from "../Store/models/CardSearchSlice";
-import CategoryFilters from "../components/CategoryFilters/CategoryFilters";
+
 
 const PAGE_SIZE = 20;
 
