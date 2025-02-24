@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../Store/store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../Store/store";
 import { getCards } from "../Store/models/CardListSlice";
 // import Navigation from "../components/Navigation/Navigation";
 // import Cards from "../components/Cards/Cards";
