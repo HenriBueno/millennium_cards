@@ -160,7 +160,7 @@ interface InputProps {
 }
 
 export default function Example({ searchProduct, setSearchProduct }: InputProps) {
-  const [open, setOpen] = useState(false);
+  const [, setOpen] = useState(false);
   const [isBagOpen, setIsBagOpen] = useState(false);
   const bag = useAppSelector((state) => state.bag.card);
   const dispatch = useAppDispatch();
