@@ -32,7 +32,7 @@ export const getSearchCard = createAsyncThunk(
         return rejectWithValue("Nenhum resultado encontrado");
       }
 
-      // Filtra os cards com base na pesquisa
+
       const filteredCards: CardType[] = firstResponse
         .filter((card: CardType) =>
           card.name.toLowerCase().includes(search.toLowerCase())

@@ -10,4 +10,5 @@ export default combineReducers({
     bag: BagSlice,
     modal: ModalBagSlice,
     searchCard: CardSearchSlice,
+    
 });
